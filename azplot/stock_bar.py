@@ -1,11 +1,11 @@
 import datetime
-from typing import List, Union
+from typing import List
 import pandas as pd
-import numpy as np
 from decimal import Decimal, ROUND_HALF_UP
 from pyecharts import options as opts
 from pyecharts.charts import Kline, Line, Bar, Grid, Tab
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
+from . import utils
 
 pd.set_option('expand_frame_repr', False)  # 当列太多时不换行
 pd.set_option('display.max_rows', 50)  # 最多显示数据的行数
@@ -350,8 +350,7 @@ class StockChartController:
         :param stocks_df: 必填字段 - 股票代码、股票名称；选填字段 - 交易日期（pd.Timestamp）
         :return:
         """
-        import azhint
-        azhint.df_check(stocks_df, ['股票代码', '股票名称'])
+        utils.df_check(stocks_df, ['股票代码', '股票名称'])
         stocks_df = stocks_df.copy()
         stocks_df['股票代码'] = stocks_df.股票代码.str.strip()
         import webbrowser

@@ -5,7 +5,7 @@ from typing import List
 import pandas as pd
 from pyecharts import options as opts
 from pyecharts.charts import Line, Bar, Grid
-import azhint
+from . import utils
 
 
 class NetLineModel:
@@ -21,7 +21,8 @@ class NetLineModel:
         :param equity_df: ['equity_curve'：净值, '涨跌幅', 'benchmark'：基准净值]
         :return:
         """
-        azhint.df_check(equity_df, ['equity_curve', '涨跌幅', 'benchmark'])
+
+        utils.df_check(equity_df, ['equity_curve', '涨跌幅', 'benchmark'])
         self.equity_df = equity_df
         self.dates = equity_df.index.strftime('%Y/%m/%d').values.tolist() \
             if is_datetime(equity_df.index) \
@@ -159,5 +160,10 @@ class NetLineController:
 
 
 def draw_net_value(equity_df: pd.DataFrame, name: str = '策略净值'):
+    """
+    画净值曲线 & 涨跌幅柱
+    :param equity_df: 净值df，必须columns：['equity_curve'：净值, '涨跌幅', 'benchmark'：基准净值]，index为Datetime类型
+    :param name: 策略名
+    :return:
+    """
     NetLineController().draw(equity_df=equity_df, name=name)
-

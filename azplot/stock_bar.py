@@ -299,7 +299,7 @@ class StockChartController:
         self.stock_data_dir = stock_data_dir
 
     def _get_chart_model(self, code, buy_days: [pd.Timestamp] = None, sell_days: [pd.Timestamp] = None,
-                         window_start='2022/10/11', window_end='2023/02/07', stick_count=None):
+                         window_start='2022/10/11', window_end='2023/02/07', stick_count=100):
         """
         有stick_count就用，没有就用window_start和window_end
         :param code:
@@ -330,8 +330,9 @@ class StockChartController:
         return model
 
     def draw_stock(self, code, buy_days: [pd.Timestamp] = None, sell_days: [pd.Timestamp] = None,
-                   window_start='2022/10/11', window_end='2023/02/07'):
+                   window_start='2022/10/11', window_end='2023/02/07', should_open=True):
         """
+        :param should_open: 是否直接打开
         :param code:
         :param window_start: 如：2022/10/11
         :param window_end: 如：2023/02/07
@@ -340,8 +341,8 @@ class StockChartController:
         import webbrowser
         model = self._get_chart_model(code, buy_days, sell_days, window_start, window_end)
         chart_result = StockChartView(model=model).render()
-
-        webbrowser.open_new(chart_result)
+        if should_open:
+            webbrowser.open_new(chart_result)
         return chart_result
 
     def draw_stocks(self, stocks_df: pd.DataFrame, page_title: str = '股票走势图'):
@@ -372,10 +373,14 @@ class StockChartController:
         print(tab)
 
 
-def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock-trading-data-pro', buy_days: [pd.Timestamp] = None, sell_days: [pd.Timestamp] = None,
-               window_start='2022/10/11', window_end='2023/02/07'):
-    StockChartController(stock_data_dir=stock_data_dir).draw_stock(code=code, buy_days=buy_days, sell_days=sell_days,
-                                                                   window_start=window_start, window_end=window_end)
+def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock-trading-data-pro',
+               buy_days: [pd.Timestamp] = None, sell_days: [pd.Timestamp] = None,
+               window_start='2022/10/11', window_end='2023/02/07', should_open=True):
+    return StockChartController(stock_data_dir=stock_data_dir).draw_stock(code=code, buy_days=buy_days,
+                                                                          sell_days=sell_days,
+                                                                          window_start=window_start,
+                                                                          window_end=window_end,
+                                                                          should_open=should_open)
 
 
 if __name__ == '__main__':

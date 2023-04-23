@@ -372,7 +372,7 @@ class StockChartController:
         print(tab)
 
 
-def draw_stock(stock_data_dir, code, buy_days: [pd.Timestamp] = None, sell_days: [pd.Timestamp] = None,
+def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock-trading-data-pro', buy_days: [pd.Timestamp] = None, sell_days: [pd.Timestamp] = None,
                window_start='2022/10/11', window_end='2023/02/07'):
     StockChartController(stock_data_dir=stock_data_dir).draw_stock(code=code, buy_days=buy_days, sell_days=sell_days,
                                                                    window_start=window_start, window_end=window_end)

@@ -383,6 +383,12 @@ def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_dat
                                                                           should_open=should_open)
 
 
+def draw_stocks(stocks_df: pd.DataFrame,
+                stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock-trading-data-pro',
+                page_title: str = '股票走势图'):
+    return StockChartController(stock_data_dir=stock_data_dir).draw_stocks(stocks_df=stocks_df, page_title=page_title)
+
+
 if __name__ == '__main__':
     # StockChartController(stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock-trading-data-pro') \
     #     .draw_stock(code='sh601360', window_start='2022/10/11', window_end='2023/02/07',

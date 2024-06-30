@@ -1,4 +1,5 @@
 from .stock_bar import draw_stock, StockChartController, draw_stocks
 from .netvalue_line import draw_net_value
+from .line import draw_stock_line_chart
 
-__all__ = [draw_stock, StockChartController, draw_net_value, draw_stocks]
+__all__ = [draw_stock, StockChartController, draw_net_value, draw_stocks, draw_stock_line_chart]

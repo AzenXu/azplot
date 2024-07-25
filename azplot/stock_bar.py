@@ -310,7 +310,7 @@ class StockChartController:
         :param stick_count:
         :return:
         """
-        stock_data = pd.read_csv(f'{self.stock_data_dir}/{code}.csv', encoding='gbk', skiprows=1,
+        stock_data = pd.read_csv(f'{self.stock_data_dir}/{code}.csv', encoding='utf8', skiprows=0,
                                  parse_dates=['交易日期'])
         # 停牌日K线不显示
         stock_data.dropna(subset=['成交额'], inplace=True, axis=0)
@@ -373,7 +373,7 @@ class StockChartController:
         print(tab)
 
 
-def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock-trading-data-pro',
+def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock_daily',
                buy_days: [pd.Timestamp] = None, sell_days: [pd.Timestamp] = None,
                window_start='2022/10/11', window_end='2023/02/07', should_open=True):
     return StockChartController(stock_data_dir=stock_data_dir).draw_stock(code=code, buy_days=buy_days,
@@ -384,7 +384,7 @@ def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_dat
 
 
 def draw_stocks(stocks_df: pd.DataFrame,
-                stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock-trading-data-pro',
+                stock_data_dir=r'D:\Work\Code\azen-quant\data\stock_daily',
                 page_title: str = '股票走势图'):
     return StockChartController(stock_data_dir=stock_data_dir).draw_stocks(stocks_df=stocks_df, page_title=page_title)
 

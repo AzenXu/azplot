@@ -1,4 +1,5 @@
 import datetime
+import os
 from typing import List
 import pandas as pd
 from decimal import Decimal, ROUND_HALF_UP
@@ -345,8 +346,9 @@ class StockChartController:
             webbrowser.open_new(chart_result)
         return chart_result
 
-    def draw_stocks(self, stocks_df: pd.DataFrame, page_title: str = '股票走势图'):
+    def draw_stocks(self, stocks_df: pd.DataFrame, page_title: str = '股票走势图', dist_dir=None):
         """
+        :param dist_dir: html的输出目录
         :param page_title: 图表名
         :param stocks_df: 必填字段 - 股票代码、股票名称；选填字段 - 交易日期（pd.Timestamp）
         :return:
@@ -369,8 +371,9 @@ class StockChartController:
             tab.add(StockChartView(self._get_chart_model(code=code, buy_days=buy_days, stick_count=100)),
                     tab_name=buy_day_str + name)
 
-        webbrowser.open_new(tab.render(path=f"{page_title}.html"))
-        print(tab)
+        path = f"{page_title}.html" if dist_dir is None else os.path.join(dist_dir, f"{page_title}.html")
+
+        webbrowser.open_new(tab.render(path=path))
 
 
 def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_data\data\stock_daily',
@@ -385,8 +388,9 @@ def draw_stock(code, stock_data_dir=r'D:\Work\Code\azen-quant\data\xbx_stock_dat
 
 def draw_stocks(stocks_df: pd.DataFrame,
                 stock_data_dir=r'D:\Work\Code\azen-quant\data\stock_daily',
-                page_title: str = '股票走势图'):
-    return StockChartController(stock_data_dir=stock_data_dir).draw_stocks(stocks_df=stocks_df, page_title=page_title)
+                page_title: str = '股票走势图', dist_dir=None):
+    return StockChartController(stock_data_dir=stock_data_dir).draw_stocks(stocks_df=stocks_df, page_title=page_title,
+                                                                           dist_dir=dist_dir)
 
 
 if __name__ == '__main__':
